@@ -18,6 +18,7 @@ type FormData = {
   capacity: number;
   description: string;
   image:   File | null;
+  code: string;
   type: 'Food & Drink' | 'Experience' | 'Other';
 };
 
@@ -38,6 +39,7 @@ const HostEventModal = ({ onClose }) => {
     capacity: 10,
     description: '',
     image: null,
+    code: '',
     type: 'Food & Drink'
   });
 
@@ -71,14 +73,16 @@ const HostEventModal = ({ onClose }) => {
               const geoinfo = await res.json();
 
               const result = await supabase.from('events').insert([{
-                image: 'publicUrlData',
+                image: publicUrlData.publicUrl,
                 event_date: formData.date,
                 title: formData.title,
                 address: formData.location,
                 country: formData.culture,
                 price: formData.price,
                 description: formData.description,
+                code: formData.code,
                 owner_id: '1223',
+                time: formData.time,
                 capacity: formData.capacity,
                 type: 'NormalEvent',
                 lat: parseFloat(geoinfo[0].lat),
@@ -102,15 +106,17 @@ const HostEventModal = ({ onClose }) => {
     
   };
 
-  const handleFlagSelect = (e) => {
-    const culture = e.target.value;
-    let flag = '🌍';
-    if (culture === 'Italian') flag = '🇮🇹';
-    if (culture === 'Japanese') flag = '🇯🇵';
-    if (culture === 'Bavarian') flag = '🇩🇪';
-    if (culture === 'Mexican') flag = '🇲🇽';
-    setFormData({...formData, culture, flag});
-  };
+const handleFlagSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const country = e.target.value;                    
+  const code = Object.keys(nationalities).find(key => nationalities[key] === country) || "";
+
+  setFormData({
+    ...formData,
+    code,       
+    culture: country
+  });
+};
+
 
   if (success) {
     return (
@@ -208,33 +214,74 @@ const HostEventModal = ({ onClose }) => {
              </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+         <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Date</label>
-              <input type="date" className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none text-gray-600" />
+              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
+                Date
+              </label>
+              <input
+                type="date"
+                className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none text-gray-600"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              />
             </div>
+
             <div>
-              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Time</label>
-              <input type="time" className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none text-gray-600" />
+              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
+                Time
+              </label>
+              <input
+                type="time"
+                className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none text-gray-600"
+                value={formData.time} 
+                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Price (€)</label>
-              <div className="relative">
-                 <span className="absolute left-3 top-3 text-gray-400">€</span>
-                 <input type="number" placeholder="0" className="w-full pl-8 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none" />
+              {/* Price Input */}
+              <div>
+                <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
+                  Price (€)
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-3 text-gray-400">€</span>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    className="w-full pl-8 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none"
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: Number(e.target.value) })
+                    }
+                    min={0} 
+                  />
+                </div>
+              </div>
+
+              {/* Capacity Input */}
+              <div>
+                <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
+                  Capacity
+                </label>
+                <div className="relative">
+                  <Users size={16} className="absolute left-3 top-3.5 text-gray-400" />
+                  <input
+                    type="number"
+                    placeholder="10"
+                    className="w-full pl-10 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none"
+                    value={formData.capacity} 
+                    onChange={(e) =>
+                      setFormData({ ...formData, capacity: Number(e.target.value) })
+                    }
+                    min={1} 
+                  />
+                </div>
               </div>
             </div>
-            <div>
-              <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Capacity</label>
-              <div className="relative">
-                 <Users size={16} className="absolute left-3 top-3.5 text-gray-400" />
-                 <input type="number" placeholder="10" className="w-full pl-10 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none" />
-              </div>
-            </div>
-          </div>
+
 
           <div>
             <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
@@ -272,6 +319,8 @@ const HostEventModal = ({ onClose }) => {
             <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Description</label>
             <textarea 
               rows={3} 
+                value={formData.description}
+                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Tell guests what to expect..." 
               className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none resize-none"
             ></textarea>

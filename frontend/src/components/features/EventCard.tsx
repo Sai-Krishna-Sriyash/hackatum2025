@@ -2,6 +2,21 @@
 import React, { useState, useMemo } from 'react';
 import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
 
+export interface CultureEvent {
+  id: string;               
+  title: string;
+  host: string;
+  culture: string;          
+  flag: string;            
+  date: string;             
+  time?: string;            
+  location: string;
+  price: number;            
+  capacity?: number;       
+  description?: string;
+  image: string;          
+  type: string;           
+}
 
 const EventCard = ({ event, onClick, isSpecial }) => (
   <div 
