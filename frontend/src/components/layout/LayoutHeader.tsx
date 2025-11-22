@@ -6,6 +6,7 @@ import EventsPage from '@/app/events/page'
 import PassportPage from '@/app/passport/page'
 import ProfilePage from '@/app/profile/page'
 import { MOCK_USER } from '@/lib/data';
+import { MOCK_EVENTS } from '@/lib/data';
 import PaymentModal from '@/components/modals/PaymentModal'
 import HostEventModal from '@/components/modals/HostEventModal'
 import BuddyModal from '@/components/modals/BuddyModal'

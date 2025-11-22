@@ -1,3 +1,6 @@
+import EventCard from '@/components/features/EventCard';
+import { MOCK_EVENTS } from '@/lib/data';
+import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 
 

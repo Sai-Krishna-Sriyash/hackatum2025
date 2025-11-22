@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react'
 
 import LayoutHeader from '@/components/layout/LayoutHeader'
 import './globals.css'
@@ -10,10 +12,7 @@ const rubik = Rubik({
   variable: '--font-rubik',
 })
 
-export const metadata: Metadata = {
-  title: 'KulturKonnect',
-  description: 'Unlock Munich. One culture at a time.',
-}
+
 
 export default function RootLayout({
   children,
@@ -23,7 +22,7 @@ export default function RootLayout({
   
   return (
     <html lang="en">
-      <body className={`${rubik.variable} font-sans bg-minga-mint text-minga-blue min-h-screen flex flex-col`}>
+      <body className={`${rubik.variable} w-full font-sans min-h-screen flex flex-col`}>
         
         {/* TOP HEADER */}
 
@@ -32,7 +31,7 @@ export default function RootLayout({
       
 
         {/* Main Content Area */}
-        <div className="flex-1 relative z-0"> 
+        <div className="flex-1 relative z-0 w-full min-h-screen"> 
           {children}
         </div>
 

@@ -11,6 +11,10 @@ const HomePage = ({ user, setSelectedEvent }) => {
     return null;
   }
 
+  if (!user){
+    return null;
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#E6F4F1] flex items-center gap-6">
