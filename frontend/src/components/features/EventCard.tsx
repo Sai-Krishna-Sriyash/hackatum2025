@@ -1,24 +1,34 @@
-'use client';
-import React, { useState, useMemo } from 'react';
-import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
+import React from 'react';
+import { Calendar, MapPin, User, ChevronRight, Star } from 'lucide-react';
 
+// --- THIS IS THE MISSING PART ---
 export interface CultureEvent {
-  id: string;               
+  id: number;
   title: string;
   host: string;
-  culture: string;          
-  flag: string;            
-  date: string;             
-  time?: string;            
+  culture: string;
+  flag: string;
+  date: string;
+  time: string;
   location: string;
-  price: number;            
-  capacity?: number;       
-  description?: string;
-  image: string;          
-  type: string;           
+  price: number;
+  capacity: number;
+  description: string;
+  image: string;
+  lat?: number;     // Made optional (?) just in case, remove ? if always present
+  lon?: number;
+  type: string;
+  isSpecial?: boolean; // Helper for UI styling
+}
+// -------------------------------
+
+interface EventCardProps {
+  event: CultureEvent;
+  onClick: (event: any) => void;
+  isSpecial?: boolean;
 }
 
-const EventCard = ({ event, onClick, isSpecial }) => (
+const EventCard = ({ event, onClick, isSpecial }: EventCardProps) => (
   <div 
     onClick={() => onClick(event)}
     className={`bg-white rounded-xl shadow-sm hover:shadow-xl transition-all overflow-hidden cursor-pointer group flex flex-col h-full ${isSpecial ? 'border-2 border-[#D4AF37] ring-4 ring-[#D4AF37]/10' : 'border border-[#E6F4F1]'}`}
