@@ -1,7 +1,8 @@
 'use client';
 
+import { createClient } from '@/lib/client_supabase';
 import { MOCK_USER, nationalities } from '@/lib/data';
-import { supabase } from '@/lib/supabase';
+
 import { ArrowRight, Check, ChevronRight, MapPin, PlusCircle, Upload, Users, X } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -23,6 +24,7 @@ type FormData = {
 const HostEventModal = ({ onClose }) => {
   const [isPublishing, setIsPublishing] = useState(false);
   const [success, setSuccess] = useState(false);
+  const supabase = createClient();
   
   const [formData, setFormData] = useState<FormData>({
     title: '',
@@ -61,14 +63,14 @@ const HostEventModal = ({ onClose }) => {
                 .from("event_pictures")
                 .getPublicUrl(filename);
 
-              const res = await fetch(`https://geocode.maps.co/search?q=${formData.location}&api_key=${process.env.GEO_CODING_KEY}`)
+              const res = await fetch(`https://geocode.maps.co/search?q=${formData.location}&api_key=${process.env.NEXT_PUBLIC_GEO_CODING_KEY}`)
               if (!res.ok) {
                   throw new Error("Failed to fetch geocoding data");
                 }
 
               const geoinfo = await res.json();
 
-              const result = await supabase.from('users').insert([{
+              const result = await supabase.from('events').insert([{
                 image: 'publicUrlData',
                 event_date: formData.date,
                 address: formData.location,
