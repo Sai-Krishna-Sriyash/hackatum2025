@@ -7,7 +7,7 @@ const PassportPage = ({ user, onUnvisitedClick }) => {
   const [selectedMemory, setSelectedMemory] = useState();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-32">
       <div className="text-center pb-4 border-b border-gray-200">
         <h2 className="text-2xl font-bold text-[#163C5D] font-serif tracking-wide">PASSPORT & MEMORIES</h2>
         <p className="text-gray-500 text-xs uppercase tracking-widest mt-1">Official Cultural Record</p>

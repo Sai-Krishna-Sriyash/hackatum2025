@@ -1,23 +1,22 @@
 'use client';
 import EventCard from "@/components/features/EventCard";
 import { MOCK_EVENTS } from "@/lib/data";
-import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
+import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
 
-const HomePage = ({ user, setSelectedEvent }) => {
+const HomePage = ({ user, setSelectedEvent }: { user: any, setSelectedEvent: any }) => {
   const cityEvent = MOCK_EVENTS.find(e => e.isSpecial);
   const regularEvents = MOCK_EVENTS.filter(e => !e.isSpecial);
 
-  if (!cityEvent){
-    return null;
-  }
-
-  if (!user){
+  if (!cityEvent || !user) {
     return null;
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#E6F4F1] flex items-center gap-6">
+    
+    <div className="w-screen space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-32">
+      
+      {/* 1. Culture Progress Dashboard */}
+      <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#E6F4F1] flex items-center gap-6 p -8">
         <div className="flex-1">
           <div className="flex justify-between items-end mb-2">
             <h2 className="font-bold text-[#163C5D] text-lg">World Cultures Experienced</h2>
@@ -31,6 +30,7 @@ const HomePage = ({ user, setSelectedEvent }) => {
         <div className="hidden md:flex items-center justify-center bg-[#D4AF37]/10 w-16 h-16 rounded-full"><Globe className="text-[#D4AF37]" size={32} /></div>
       </div>
 
+      {/* 2. Exploration Map */}
       <div className="bg-white p-4 rounded-2xl shadow-md border border-[#E6F4F1] relative">
         <h3 className="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-bold text-[#163C5D] text-sm shadow-sm">Exploration Map</h3>
         <div className="relative w-full h-[300px] bg-[#133452] rounded-xl overflow-hidden">
@@ -40,6 +40,7 @@ const HomePage = ({ user, setSelectedEvent }) => {
         </div>
       </div>
 
+      {/* 3. Monthly City Event */}
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-[#E6F4F1] rounded-2xl transform -rotate-1" />
         <div className="relative bg-white border-2 border-[#D4AF37] rounded-2xl p-6 shadow-lg flex flex-col md:flex-row items-center gap-6">
@@ -53,12 +54,13 @@ const HomePage = ({ user, setSelectedEvent }) => {
         </div>
       </div>
 
+      {/* 4. Highlights Carousel */}
       <div className="space-y-4">
         <div className="flex justify-between items-end px-2">
           <h3 className="text-xl font-bold text-[#163C5D]">Upcoming Highlights</h3>
           <span onClick={() => document.getElementById('events-tab-trigger')?.click()} className="text-[#67B99A] text-sm font-bold cursor-pointer hover:underline">View all events →</span>
         </div>
-        <div className="grid grid-flow-col auto-cols-[85%] md:auto-cols-[32%] gap-4 overflow-x-auto pb-6 px-2 scrollbar-hide snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0">
+        <div className="grid grid-flow-col auto-cols-[85%] md:auto-cols-[32%] lg:auto-cols-[24%] xl:auto-cols-[19%] gap-4 overflow-x-auto pb-6 px-2 scrollbar-hide snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0">
           {regularEvents.map(event => (
             <div key={event.id} className="snap-center h-full"><EventCard event={event} onClick={setSelectedEvent} isSpecial={false} /></div>
           ))}
