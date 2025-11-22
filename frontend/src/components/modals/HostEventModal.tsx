@@ -1,14 +1,30 @@
 'use client';
 
-import { MOCK_USER } from '@/lib/data';
+import { MOCK_USER, nationalities } from '@/lib/data';
+import { supabase } from '@/lib/supabase';
 import { ArrowRight, Check, ChevronRight, MapPin, PlusCircle, Upload, Users, X } from 'lucide-react';
 import React, { useState } from 'react';
+
+type FormData = {
+  title: string;
+  host: string;
+  culture: string;
+  flag: string;
+  date: string;
+  time: string;
+  location: string;
+  price: number;
+  capacity: number;
+  description: string;
+  image:   File | null;
+  type: 'Food & Drink' | 'Experience' | 'Other';
+};
 
 const HostEventModal = ({ onClose }) => {
   const [isPublishing, setIsPublishing] = useState(false);
   const [success, setSuccess] = useState(false);
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     host: MOCK_USER.name,
     culture: '',
@@ -19,16 +35,68 @@ const HostEventModal = ({ onClose }) => {
     price: 0,
     capacity: 10,
     description: '',
+    image: null,
     type: 'Food & Drink'
   });
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     setIsPublishing(true);
-    setTimeout(() => {
-      setIsPublishing(false);
-      setSuccess(true);
-      setTimeout(onClose, 2000);
-    }, 1500);
+
+    try {
+      if (!formData.image){
+        return;
+      }
+
+      const filename = `${Date.now()}_${formData.image.name}`;
+      const { data, error } = await supabase.storage
+              .from("event_pictures") 
+              .upload(filename,  formData.image);
+
+      if (error) {
+            console.error("Upload error:", error);
+            setIsPublishing(false);
+          } else {
+              console.log("Uploaded:", data);
+              const { data: publicUrlData } = supabase.storage
+                .from("event_pictures")
+                .getPublicUrl(filename);
+
+              const res = await fetch(`https://geocode.maps.co/search?q=${formData.location}&api_key=${process.env.GEO_CODING_KEY}`)
+              if (!res.ok) {
+                  throw new Error("Failed to fetch geocoding data");
+                }
+
+              const geoinfo = await res.json();
+
+              const result = await supabase.from('users').insert([{
+                image: 'publicUrlData',
+                event_date: formData.date,
+                address: formData.location,
+                country: formData.culture,
+                price: formData.price,
+                description: formData.description,
+                owner_id: '1223',
+                capacity: formData.capacity,
+                type: 'NormalEvent',
+                lat: parseFloat(geoinfo[0].lat),
+                lon: parseFloat(geoinfo[0].lon)
+
+              }])
+              setIsPublishing(false);
+              setSuccess(true);
+            }
+
+
+
+        
+
+    } catch (error) {
+      console.log("ERROR");
+    }
+
+
+    setIsPublishing(false);
+    
   };
 
   const handleFlagSelect = (e) => {
@@ -56,8 +124,8 @@ const HostEventModal = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#163C5D]/80 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl animate-in fade-in zoom-in duration-200 overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 w-full z-100 flex items-center justify-center p-4 bg-[#163C5D]/80 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl w-full max-w-xl shadow-2xl animate-in fade-in zoom-in duration-200 overflow-hidden flex flex-col max-h-[90vh]">
         <div className="bg-[#163C5D] p-5 text-white flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="bg-[#D4AF37] p-2 rounded-full text-[#163C5D]">
@@ -91,11 +159,11 @@ const HostEventModal = ({ onClose }) => {
                   className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#67B99A] outline-none bg-white appearance-none"
                   onChange={handleFlagSelect}
                 >
-                  <option>Select Culture...</option>
-                  <option value="Italian">🇮🇹 Italian</option>
-                  <option value="Japanese">🇯🇵 Japanese</option>
-                  <option value="Bavarian">🇩🇪 Bavarian</option>
-                  <option value="Mexican">🇲🇽 Mexican</option>
+                  {Object.entries(nationalities).map(([code, name]) => (
+                    <option key={code} value={name}>
+                     {name}
+                    </option>
+                  ))}
                 </select>
                 <div className="absolute right-3 top-3 pointer-events-none text-gray-400">
                   <ChevronRight size={16} className="rotate-90" />
@@ -109,7 +177,12 @@ const HostEventModal = ({ onClose }) => {
                   <option>Food & Drink</option>
                   <option>Workshop</option>
                   <option>Dance</option>
+                  <option>Family-Friendly</option>
+                  <option>Festival</option>
                   <option>Ceremony</option>
+                  <option>Sport</option>
+                  <option>Holiday</option>
+                  <option>Language Exchange</option>
                 </select>
                 <div className="absolute right-3 top-3 pointer-events-none text-gray-400">
                   <ChevronRight size={16} className="rotate-90" />
@@ -119,7 +192,7 @@ const HostEventModal = ({ onClose }) => {
           </div>
 
           <div>
-             <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Location (District)</label>
+             <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Location (Address)</label>
              <div className="relative">
                 <MapPin size={16} className="absolute left-3 top-3.5 text-gray-400" />
                 <input 
@@ -161,13 +234,35 @@ const HostEventModal = ({ onClose }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">Cover Image</label>
-            <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-gray-400 hover:border-[#67B99A] hover:bg-[#F0F9F6] transition cursor-pointer group">
-              <div className="bg-gray-50 p-3 rounded-full mb-2 group-hover:bg-white">
+            <label className="block text-xs font-bold text-[#163C5D] mb-1 uppercase tracking-wide">
+              Cover Image
+            </label>
+            <div
+              onClick={() => document.getElementById("fileInput")?.click()}
+              className="relative h-44 border-2 border-dashed border-gray-200 rounded-xl p-6 text-gray-400 hover:border-[#67B99A] hover:bg-[#F0F9F6] transition cursor-pointer flex items-center justify-center overflow-hidden w-full"
+            >
+              {formData.image ? (
+                <img
+                  src={URL.createObjectURL(formData.image)}
+                  alt="Preview"
+                  className=" absolute top-0 left-0 w-full h-full object-cover rounded-xl"
+                />
+              ) : (
                 <Upload size={24} className="text-gray-400 group-hover:text-[#67B99A]" />
-              </div>
-              <span className="text-xs font-bold">Click to upload event photo</span>
+              )}
             </div>
+
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  setFormData({ ...formData, image: e.target.files[0] });
+                }
+              }}
+            />
           </div>
 
           <div>
