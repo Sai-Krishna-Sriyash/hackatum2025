@@ -19,10 +19,8 @@ const EventMap = () => {
   const map = useRef<mapboxgl.Map | null>(null);
   const supabase = createClient();
 
-  // 1. NEW: Track the current style so we know which button to show
-  const [currentStyle, setCurrentStyle] = useState<'light' | 'satellite'>('light');
-
-
+  // FIX 1: Initialize state to 'satellite' to match the useEffect initialization
+  const [currentStyle, setCurrentStyle] = useState<'light' | 'satellite'>('satellite');
 
   const setMapStyle = (style: 'light' | 'satellite') => {
     if (map.current) {
@@ -36,64 +34,96 @@ const EventMap = () => {
   };
 
   useEffect(() => {
-  if (map.current || !mapContainer.current) return;
+    if (map.current || !mapContainer.current) return;
 
-  map.current = new mapboxgl.Map({
-    container: mapContainer.current,
-    style: 'mapbox://styles/mapbox/light-v11',
-    center: [11.5820, 48.1351],
-    zoom: 10,
-  });
-
-  const currentMap = map.current;
-
-  const getEvents = async () => {
-    const { data, error } = await supabase
-      .from("events")
-      .select("id, country,code, lat, lon, title");
-
-    if (!data) return;
-
-    data.forEach(item => {
-      const flagUrl = `https://flagcdn.com/${item.code.toLowerCase()}.svg`;
-
-      const el = document.createElement("div");
-      el.className = "marker-flag";
-      el.style.cursor = "pointer";
-      el.innerHTML = `
-        <div style="
-          width:45px;
-          height:45px;
-          padding:0;
-          background:#EF4444;
-          border-radius:50%;
-          overflow:hidden;              
-          box-shadow:0 4px 6px rgba(0,0,0,0.2);
-          border:1px solid white;
-        ">
-          <img src="${flagUrl}" 
-            style="
-              width:100%;
-              height:100%;
-              object-fit:cover;       
-              display:block;
-      "
-    />
-  </div>
-  `;
-
-      const popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3 style="font-weight:bold">${item.title}</h3>`);
-
-      new mapboxgl.Marker(el)
-        .setLngLat([item.lon, item.lat])
-        .setPopup(popup)
-        .addTo(currentMap);
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/satellite-streets-v12', // Matches initial state now
+      center: [11.5820, 48.1351],
+      zoom: 10,
     });
-  };
 
-  getEvents();
-}, [supabase]);
+    const currentMap = map.current;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                currentMap.flyTo({
+                    center: [longitude, latitude],
+                    zoom: 13,
+                    essential: true
+                });
+
+                const userEl = document.createElement('div');
+                userEl.innerHTML = `
+                  <div style="display:flex; flex-direction:column; align-items:center;">
+                    <div style="width:16px; height:16px; background-color:#3B82F6; border-radius:50%; border:2px solid white; box-shadow:0 4px 6px rgba(0,0,0,0.1);"></div>
+                    <div style="font-size:10px; font-weight:bold; color:#2563EB; background:rgba(255,255,255,0.9); padding:2px 4px; border-radius:4px; margin-top:4px;">You</div>
+                  </div>
+                `;
+
+                new mapboxgl.Marker(userEl)
+                  .setLngLat([longitude, latitude])
+                  .addTo(currentMap);
+            },
+            (error) => {
+                console.error("Error getting location:", error);
+            }
+        );
+    }
+
+    const getEvents = async () => {
+      const { data, error } = await supabase
+        .from("events")
+        .select("id, country,code, lat, lon, title");
+
+      if (!data) return;
+
+      data.forEach(item => {
+        const flagUrl = `https://flagcdn.com/${item.code.toLowerCase()}.svg`;
+
+        const el = document.createElement("div");
+        el.className = "marker-flag";
+        el.style.cursor = "pointer";
+        
+        // FIX 2: Fixed template literal syntax nesting
+        el.innerHTML = `
+          <div style="
+            width:45px;
+            height:45px;
+            padding:0;
+            background:#EF4444;
+            border-radius:50%;
+            overflow:hidden;              
+            box-shadow:0 4px 6px rgba(0,0,0,0.2);
+            border:1px solid white;
+          ">
+            <img src="${flagUrl}" 
+              style="
+                width:100%;
+                height:100%;
+                object-fit:cover;       
+                display:block;
+              "
+            />
+          </div>
+        `;
+
+        const popup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML(`<h3 style="font-weight:bold">${item.title}</h3>`);
+
+        new mapboxgl.Marker(el)
+          .setLngLat([item.lon, item.lat])
+          .setPopup(popup)
+          .addTo(currentMap);
+      });
+    };
+
+    getEvents();
+  }, [supabase]);
+
+  
 
   return (
     <div className="w-full h-96 rounded-xl overflow-hidden border-2 border-[#26667F] shadow-lg relative"
@@ -101,7 +131,6 @@ const EventMap = () => {
     >
       <div ref={mapContainer} className="w-full h-full" />
 
-      {/* --- 3. GOOGLE MAPS STYLE TOGGLE --- */}
       <div className="absolute bottom-6 left-4 z-10 group">
         {currentStyle === 'light' ? (
           // BUTTON: SWITCH TO SATELLITE
@@ -109,7 +138,6 @@ const EventMap = () => {
             onClick={() => setMapStyle('satellite')}
             className="w-16 h-16 rounded-lg border-2 border-white shadow-xl cursor-pointer overflow-hidden relative transition-transform hover:scale-105 bg-gray-900 ring-1 ring-black/10"
           >
-            {/* Dynamic Thumbnail from Mapbox API */}
             <img
               src={`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/11.5820,48.1351,12,0/128x128?access_token=${mapboxgl.accessToken}`}
               alt="Satellite"
@@ -125,7 +153,6 @@ const EventMap = () => {
             onClick={() => setMapStyle('light')}
             className="w-16 h-16 rounded-lg border-2 border-white shadow-xl cursor-pointer overflow-hidden relative transition-transform hover:scale-105 bg-gray-100 ring-1 ring-black/10"
           >
-             {/* Dynamic Thumbnail from Mapbox API */}
              <img
               src={`https://api.mapbox.com/styles/v1/mapbox/light-v11/static/11.5820,48.1351,12,0/128x128?access_token=${mapboxgl.accessToken}`}
               alt="Map"

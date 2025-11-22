@@ -119,11 +119,10 @@ const [viewingEvent, setViewingEvent] = useState(null);
 
       {/* 2. Exploration Map */}
       <EventMap />
-
       {cityEvent ? (
         <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-[#E6F4F1] rounded-2xl transform -rotate-1" />
-        <div className="relative bg-white border-2 border-[#D4AF37] rounded-2xl p-6 shadow-lg flex flex-col md:flex-row items-center gap-6">
+        <div className= "relative bg-white border-2 border-[#D4AF37] rounded-2xl p-6 shadow-lg flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1 space-y-3 text-center md:text-left">
             <div className="inline-flex items-center gap-2 bg-[#D4AF37] text-[#163C5D] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"><Star size={12} fill="#163C5D" /> Monthly City Event</div>
             <h3 className="text-2xl font-bold text-[#163C5D]">{cityEvent.title}</h3>
