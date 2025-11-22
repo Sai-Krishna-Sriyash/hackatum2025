@@ -24,7 +24,7 @@ export interface CultureEvent {
 
 interface EventCardProps {
   event: CultureEvent;
-  onClick: (event: any) => void;
+  onClick: (event) => void;
   isSpecial?: boolean;
 }
 

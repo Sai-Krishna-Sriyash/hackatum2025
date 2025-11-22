@@ -98,20 +98,7 @@ const MOCK_EVENTS = [
     description: "Learn how to make authentic Brezn with a local baker.",
     type: "Food & Drink"
   },
-  {
-    id: 3,
-    title: "Salsa Beginner Night",
-    host: "Maria Rodriguez",
-    culture: "Cuban",
-    flag: "🇨🇺",
-    date: "2024-11-26",
-    location: "Ludwigsvorstadt",
-    price: 10,
-    capacity: 30,
-    image: "https://images.unsplash.com/photo-1516651029879-1df40eb3523f?auto=format&fit=crop&w=800&q=80",
-    description: "Shake your hips! No partner needed.",
-    type: "Dance"
-  },
+  
   {
     id: 4,
     title: "Ethiopian Coffee Ritual",
@@ -150,7 +137,7 @@ const MOCK_EVENTS = [
     location: "Giesing",
     price: 12,
     capacity: 20,
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+    image: "https://i.ytimg.com/vi/YxXuzrILWFA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCqcYO-bPvo1HK3KsTA5iv5x1xMqA",
     description: "High energy dance workshop!",
     type: "Dance"
   }
@@ -180,7 +167,32 @@ const nationalities: Record<string, string> = {
   US: "United States",
 };
 
+
+const countryFlags = {
+  "Australia": "🇦🇺",
+  "Brazil": "🇧🇷",
+  "Canada": "🇨🇦",
+  "China": "🇨🇳",
+  "Germany": "🇩🇪",
+  "Egypt": "🇪🇬",
+  "Spain": "🇪🇸",
+  "France": "🇫🇷",
+  "United Kingdom": "🇬🇧",
+  "Indonesia": "🇮🇩",
+  "India": "🇮🇳",
+  "Italy": "🇮🇹",
+  "Japan": "🇯🇵",
+  "South Korea": "🇰🇷",
+  "Mexico": "🇲🇽",
+  "Nigeria": "🇳🇬",
+  "Russia": "🇷🇺",
+  "Saudi Arabia": "🇸🇦",
+  "Turkey": "🇹🇷",
+  "United States": "🇺🇸",
+};
+
 export { MOCK_EVENTS };
 export { MOCK_USER };
 export { RECOMMENDED_STAMPS };
 export {nationalities}
+export {countryFlags}

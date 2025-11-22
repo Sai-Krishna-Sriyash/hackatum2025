@@ -16,6 +16,8 @@ const PassportPage = ({user, onUnvisitedClick}) => {
 
   const [selectedMemory, setSelectedMemory] = useState<Memory | null>();
 
+  
+
   return (
       <div className="space-y-6 p-32">
         <div className="text-center pb-4 border-b border-gray-200">
@@ -98,7 +100,7 @@ const PassportPage = ({user, onUnvisitedClick}) => {
                     </div>
                   </div>
                   <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6"><p
-                      className="text-gray-600 italic font-serif text-sm leading-relaxed">"{selectedMemory.summary}"</p>
+                      className="text-gray-600 italic font-serif text-sm leading-relaxed">{selectedMemory.summary}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-16 mt-16 flex flex-grow ">{selectedMemory.photos.map((photo, i) => (
                       <img key={i} src={photo}

@@ -1,39 +1,24 @@
 # HackaTUM 2025
 
-## Prerequisites
-1. **Docker Desktop** (or Engine) running.
-2. **Node.js v20+** (Check with `node -v`).
-3. **Python 3.10+**.
+## Introduction
 
-## ⚡ Quick Start
+KulturKonnect local event discovery platform built specifically for the city of Munich. Our mission is to break down social barriers promote interculturalism by making it effortless for citizens to find, attend, and share authentic intercultural events—from Mexican cooking classes and Chinese New years to Indian Diwali celebrations.
 
-### 1. Infrastructure (Database)
-```bash
-cd docker
-docker compose up
-# Wait for "database system is ready to accept connections"
-```
+Our solution moves beyond generic event listings to focus exclusively on events driven by local foreign national groups, ensuring rich, specific cultural exchange.
 
-### 2. Backend (The Brain)
-Open a new terminal:
-```bash
-cd backend
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Mac/Linux: source venv/bin/activate
-pip install -r requirements.txt
-python main.py
-```
-*Swagger Docs:* [http://localhost:8000/docs](http://localhost:8000/docs)
+### 🚀 Key Features (MVP)
+These features reflect the core functionality we built during the hackathon:
 
-### 3. Frontend (The Face)
-Open a new terminal:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-*UI:* [http://localhost:3000](http://localhost:3000)
+- Location-Specific Filtering: The platform exclusively serves events within the target city 
 
-## Secrets (.env)
-Ask Sriyash for the `.env` file content! Do not commit secrets to Git.
+- Interactive Event Hosting: A user-friendly modal allowing hosts to input detailed event information
+
+- Gamification of unlocking country badges by visiting different cultural events.
+
+- Map Location Picker: Precise location capture (latitude/longitude) using an interactive Mapbox map component.
+
+- Fast and easy database queries using supabase
+
+- Enabling free city events
+
+- Journaling the events and maintaing a diary
