@@ -14,7 +14,10 @@ const MOCK_USER = {
       summary: "Learned the art of Maki rolling with Yuki. The matcha tea afterwards was divine!",
       photos: [
         "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=300&q=80",
-        "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=300&q=80"
+        "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=300&q=80",
+        "https://images.unsplash.com/photo-1502364271109-0a9a75a2a9df?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHN1c2hpfGVufDB8fDB8fHww",
+        "https://media.istockphoto.com/id/1325026820/photo/man-eating-delicious-sushi-at-outdoor-restaurant.webp?a=1&b=1&s=612x612&w=0&k=20&c=wWABHYZHZIGqWN4qIeKApAsSRsEnH0OYI9rvhx7J_fU="
+
       ]
     },
     { 
@@ -26,7 +29,12 @@ const MOCK_USER = {
       location: "Schwabing",
       summary: "Incredible energy! Danced until midnight. Met Mateo and planned a coffee meet.",
       photos: [
-        "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&w=300&q=80"
+        "https://images.unsplash.com/photo-1761144846282-5c6286445c6d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YnJhemxpYW4lMjBzYW1iYXxlbnwwfHwwfHx8MA%3D%3D",
+        "https://images.unsplash.com/photo-1528000936410-deb9b2dee794?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGRhbmNpbmclMjBicmF6aWx8ZW58MHx8MHx8fDA%3D",
+        "https://images.unsplash.com/photo-1659700556679-6cb287a5c883?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2FtYmF8ZW58MHx8MHx8fDA%3D",
+        "https://images.unsplash.com/photo-1506372023823-741c83b836fe?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fGNvZmZlZXxlbnwwfHwwfHx8MA%3D%3D"
+
+
       ]
     }
   ],
