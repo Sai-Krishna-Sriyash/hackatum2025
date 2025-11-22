@@ -30,13 +30,15 @@ import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EventMap from "@/components/features/EventMap";
+import EventModal from "@/components/modals/EventModal";
 
 const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
 	const { isLoaded, userId } = useAuth();
 	const router = useRouter();
 
+const [viewingEvent, setViewingEvent] = useState(null);
 	useEffect(() => {
 		if (!isLoaded) return;
 		if (!userId) router.push("/sign-in");
@@ -94,10 +96,22 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
         </div>
         <div className="grid grid-flow-col auto-cols-[85%] md:auto-cols-[32%] lg:auto-cols-[24%] xl:auto-cols-[19%] gap-4 overflow-x-auto pb-6 px-2 scrollbar-hide snap-x snap-mandatory -mx-4 md:mx-0 px-4 md:px-0">
           {regularEvents.map(event => (
-            <div key={event.id} className="snap-center h-full"><EventCard event={event} onClick={setSelectedEvent} isSpecial={false} /></div>
+            <div key={event.id} className="snap-center h-full">
+                {/* 3. UPDATE CLICK HANDLER */}
+                <EventCard event={event} onClick={setViewingEvent} isSpecial={false} />
+            </div>
           ))}
         </div>
       </div>
+
+      {/* 4. RENDER THE MODAL AT THE BOTTOM */}
+      {viewingEvent && (
+        <EventModal 
+          event={viewingEvent} 
+          onClose={() => setViewingEvent(null)} 
+        />
+      )}
+
     </div>
   );
 };
