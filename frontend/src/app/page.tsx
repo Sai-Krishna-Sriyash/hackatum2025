@@ -31,6 +31,7 @@ import { redirect } from "next/navigation";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import EventMap from "@/components/features/EventMap";
 
 const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
 	const { isLoaded, userId } = useAuth();
