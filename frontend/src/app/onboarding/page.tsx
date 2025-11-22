@@ -47,9 +47,7 @@ export default function OnboardingPage() {
 				<input name="address" placeholder="Full Address" required className="border p-2 rounded" />
 
 				<select name="nationality" required className="border p-2 rounded bg-white">
-					<option value="">
-						Select Nationality
-					</option>
+					<option value="">Select Nationality</option>
 					{Object.entries(nationalities).map(([shortForm, longForm]) => (
 						<option key={shortForm} value={shortForm}>
 							{longForm}
