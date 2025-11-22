@@ -13,7 +13,6 @@ import { redirect } from "next/navigation";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
 import EventMap from "@/components/features/EventMap";
 import { createClient } from "@/lib/client_supabase";
 import EventModal from "@/components/modals/EventModal";
