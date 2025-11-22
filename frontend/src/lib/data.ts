@@ -1,7 +1,9 @@
+
+
 const MOCK_USER = {
-  name: "Alex Wanderer",
+  name: "Sriyash Kommalapati",
   nationality: "German",
-  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
+  avatar: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg",
   unlockedRegions: ["Maxvorstadt", "Schwabing"],
   stamps: [
     { 
