@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 :root {
-  /* Define standard CSS variables for colors */
   --minga-mint: 221 244 231;
   --minga-green: 103 192 144;
   --minga-teal: 38 102 127;
@@ -12,7 +11,6 @@
 
 @layer base {
   body {
-    /* Use Tailwind's @apply here, referencing the config colors */
     @apply bg-minga-mint text-minga-blue font-sans antialiased;
   }
 }

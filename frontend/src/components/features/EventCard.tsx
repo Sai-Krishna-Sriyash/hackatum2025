@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useMemo } from 'react';
 import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
 
@@ -52,3 +53,5 @@ const EventCard = ({ event, onClick, isSpecial }) => (
     </div>
   </div>
 );
+
+export default EventCard;

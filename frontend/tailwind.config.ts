@@ -19,6 +19,10 @@ const config: Config = {
           teal: "rgb(var(--minga-teal) / <alpha-value>)",
           blue: "rgb(var(--minga-blue) / <alpha-value>)",
         },
+        "minga-mint": "rgb(var(--minga-mint) / <alpha-value>)",
+        "minga-green": "rgb(var(--minga-green) / <alpha-value>)",
+        "minga-teal": "rgb(var(--minga-teal) / <alpha-value>)",
+        "minga-blue": "rgb(var(--minga-blue) / <alpha-value>)",
       },
       boxShadow: {
         'soft': '0 10px 40px -10px rgba(38, 102, 127, 0.1)',

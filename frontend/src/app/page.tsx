@@ -1,7 +1,15 @@
+'use client';
+import EventCard from "@/components/features/EventCard";
+import { MOCK_EVENTS } from "@/lib/data";
+import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
 
 const HomePage = ({ user, setSelectedEvent }) => {
   const cityEvent = MOCK_EVENTS.find(e => e.isSpecial);
   const regularEvents = MOCK_EVENTS.filter(e => !e.isSpecial);
+
+  if (!cityEvent){
+    return null;
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -14,7 +22,7 @@ const HomePage = ({ user, setSelectedEvent }) => {
           <div className="w-full bg-[#E6F4F1] h-3 rounded-full overflow-hidden">
             <div className="bg-[#67B99A] h-full rounded-full" style={{ width: `${(user.stamps.length / 20) * 100}%` }}></div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Attend events from 3 more countries to earn the "Globetrotter" badge!</p>
+          <p className="text-xs text-gray-500 mt-2">Attend events from 3 more countries to earn the Globetrotter badge!</p>
         </div>
         <div className="hidden md:flex items-center justify-center bg-[#D4AF37]/10 w-16 h-16 rounded-full"><Globe className="text-[#D4AF37]" size={32} /></div>
       </div>

@@ -10,3 +10,5 @@ const KulturLogo = ({ className = "w-8 h-8" }) => (
     <circle cx="70" cy="30" r="2" fill="#D4AF37" />
   </svg>
 );
+
+export default KulturLogo;

@@ -1,4 +1,7 @@
-
+'use client';
+import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
+import { useState } from 'react';
+import KulturLogo from '../ui/KulturLogo';
 
 const Header = ({ activeTab, setActiveTab, setShowHostModal, setShowBuddyModal }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

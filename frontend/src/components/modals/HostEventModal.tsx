@@ -1,3 +1,7 @@
+'use client';
+
+import { MOCK_USER } from '@/lib/data';
+import { ArrowRight, Check, ChevronRight, MapPin, PlusCircle, Upload, Users, X } from 'lucide-react';
 import React, { useState } from 'react';
 
 const HostEventModal = ({ onClose }) => {
@@ -189,3 +193,5 @@ const HostEventModal = ({ onClose }) => {
     </div>
   );
 };
+
+export default HostEventModal;

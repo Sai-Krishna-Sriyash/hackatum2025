@@ -1,3 +1,6 @@
+'use client';
+import { CreditCard, X } from "lucide-react";
+
 const PaymentModal = ({ event, onClose }) => (
   <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in">
     <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6 relative">
@@ -18,3 +21,5 @@ const PaymentModal = ({ event, onClose }) => (
     </div>
   </div>
 );
+
+export default PaymentModal;

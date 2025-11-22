@@ -1,4 +1,6 @@
+'use client';
 import React, { useState } from 'react';
+import { ArrowRight, Check, ChevronRight, MapPin, PlusCircle, Upload, Users, X } from 'lucide-react';
 
 
 
@@ -39,3 +41,5 @@ const BuddyModal = ({ user, onClose }) => {
     </div>
   );
 };
+
+export default BuddyModal;
