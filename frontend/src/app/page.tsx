@@ -1,53 +1,99 @@
 "use client";
-import EventCard from "@/components/features/EventCard";
+import EventCard, { CultureEvent } from "@/components/features/EventCard";
 import { MOCK_EVENTS } from "@/lib/data";
 import {
-	Search,
-	MapPin,
-	Calendar,
-	User,
-	CreditCard,
+	
 	Globe,
-	Award,
-	Menu,
-	X,
-	Filter,
-	ChevronRight,
-	PlusCircle,
+	
 	Star,
-	SlidersHorizontal,
-	Users,
-	Settings,
-	Check,
-	Wallet,
-	Camera,
-	Phone,
-	Share2,
-	ArrowRight,
-	Upload,
+	
 } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { SignOutButton, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import EventMap from "@/components/features/EventMap";
+import { createClient } from "@/lib/client_supabase";
 
 const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
 	const { isLoaded, userId } = useAuth();
 	const router = useRouter();
+  const supabase = createClient();
+  const [regularEvents,setRegularEvents] = useState<CultureEvent[]>([]);
+  const [cityEvent, setCityEvent] = useState<CultureEvent | null>(null);
+  const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (!isLoaded) return;
 		if (!userId) router.push("/sign-in");
+
+    
+    const getEvents = async () => {
+      setLoading(true);
+      const {data, error} = await supabase.from("events").select("*").eq("type" ,"NormalEvent");
+      if (data){
+
+        setRegularEvents(
+          data.map((item) : CultureEvent => ({
+          id: item.id,
+          title: item.title,
+          host: item.owner_id,
+          culture: item.country,
+          flag: item.flag,
+          date: item.event_date,
+          time: item.time ?? "",           
+          location: item.address,
+          price: item.price,
+          capacity: item.capacity ?? 0,    
+          description: item.description ?? "",
+          image: item.image,               
+          type: item.type,
+        }))
+        );
+      }
+
+      console.log(data);
+      setLoading(false);
+    }
+
+    const getCityEvent = async () => {
+      setLoading(true);
+
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("type", "CityEvent")
+        .limit(1) 
+        .single();
+
+      if (data) {
+        setCityEvent({
+          id: data.id,
+          title: data.title,
+          host: data.owner_id,
+          culture: data.country,
+          flag: data.flag,
+          date: data.event_date,
+          time: data.time ?? "",
+          location: data.address,
+          price: data.price,
+          capacity: data.capacity ?? 0,
+          description: data.description ?? "",
+          image: data.image,
+          type: data.type,
+        });
+      }
+    }
+
+    getCityEvent();
+
+    
+
+    getEvents();
+
+
 	}, [isLoaded, userId, router]);
-  const cityEvent = MOCK_EVENTS.find(e => e.isSpecial);
-  const regularEvents = MOCK_EVENTS.filter(e => !e.isSpecial);
-
-  if (!cityEvent || !user) {
-    return null;
-  }
-
 
 
   return (
@@ -72,8 +118,8 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
       {/* 2. Exploration Map */}
       <EventMap />
 
-      {/* 3. Monthly City Event */}
-      <div className="relative">
+      {cityEvent ? (
+        <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-[#E6F4F1] rounded-2xl transform -rotate-1" />
         <div className="relative bg-white border-2 border-[#D4AF37] rounded-2xl p-6 shadow-lg flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1 space-y-3 text-center md:text-left">
@@ -82,9 +128,16 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
             <p className="text-gray-600 text-sm">{cityEvent.description}</p>
             <button onClick={() => setSelectedEvent(cityEvent)} className="bg-[#163C5D] text-white px-6 py-2 rounded-lg font-bold text-sm shadow hover:bg-[#2D7A83] transition w-full md:w-auto">View Official Event</button>
           </div>
-          <div className="w-full md:w-48 h-32 rounded-xl overflow-hidden shadow-md flex-shrink-0"><img src={cityEvent.image} alt="City Event" className="w-full h-full object-cover" /></div>
+          <div className="w-full md:w-64 h-45 rounded-xl overflow-hidden shadow-md flex-shrink-0"><img src={cityEvent.image} alt="City Event" className="w-full h-full object-cover" /></div>
         </div>
       </div>
+      ): (
+        <div className="text-gray-600 text-sm">
+          Loadinggg....
+        </div>
+      )}
+      
+       
 
       {/* 4. Highlights Carousel */}
       <div className="space-y-4">
