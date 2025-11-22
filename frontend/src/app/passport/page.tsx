@@ -18,9 +18,9 @@ const PassportPage = ({ user, onUnvisitedClick }) => {
       </div>
 
       {viewMode === 'visited' && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 animate-in slide-in-from-bottom-4">
+        <div className="grid grid-col md:grid-cols-3 gap-4 animate-in slide-in-from-bottom-4">
           {user.stamps.map((stamp) => (
-            <div key={stamp.id} onClick={() => setSelectedMemory(stamp)} className="aspect-[3/4] bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl transition cursor-pointer group relative overflow-hidden flex flex-col items-center justify-center p-4 text-center">
+            <div key={stamp.id} onClick={() => setSelectedMemory(stamp)} className=" bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl transition cursor-pointer group relative overflow-hidden flex flex-col items-center  p-32 text-center">
               <div className="absolute top-0 left-0 w-full h-2 bg-[#67B99A]" />
               <span className="text-4xl mb-2 group-hover:scale-110 transition transform duration-300">{stamp.flag}</span>
               <h3 className="font-bold text-[#163C5D] text-sm uppercase tracking-wide">{stamp.country}</h3>
