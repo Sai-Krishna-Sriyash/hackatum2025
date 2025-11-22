@@ -1,0 +1,151 @@
+const MOCK_USER = {
+  name: "Alex Wanderer",
+  nationality: "German",
+  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
+  unlockedRegions: ["Maxvorstadt", "Schwabing"],
+  stamps: [
+    { 
+      id: 1, 
+      country: "Japan", 
+      flag: "🇯🇵",
+      event: "Sushi Workshop", 
+      date: "2023-10-15", 
+      location: "Maxvorstadt",
+      summary: "Learned the art of Maki rolling with Yuki. The matcha tea afterwards was divine!",
+      photos: [
+        "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=300&q=80",
+        "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=300&q=80"
+      ]
+    },
+    { 
+      id: 2, 
+      country: "Brazil", 
+      flag: "🇧🇷",
+      event: "Samba Night", 
+      date: "2023-11-02", 
+      location: "Schwabing",
+      summary: "Incredible energy! Danced until midnight. Met Mateo and planned a coffee meet.",
+      photos: [
+        "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&w=300&q=80"
+      ]
+    }
+  ],
+  buddies: [
+    { id: 1, name: "Sarah Chen", nationality: "China", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80", phone: "+49 151 2233 4455" },
+    { id: 2, name: "Mateo Silva", nationality: "Brazil", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80", phone: "+49 170 9988 7766" },
+    { id: 3, name: "Lara Schmidt", nationality: "Germany", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80", phone: "+49 160 1122 3344" }
+  ]
+};
+
+const RECOMMENDED_STAMPS = [
+  { country: "Mexican", flag: "🇲🇽", reason: "Popular this week" },
+  { country: "Indian", flag: "🇮🇳", reason: "Near you" },
+  { country: "Italian", flag: "🇮🇹", reason: "Highly rated" },
+  { country: "Moroccan", flag: "🇲🇦", reason: "New events added" }
+];
+
+const MOCK_EVENTS = [
+  {
+    id: 99,
+    title: "Munich Art Night 2024",
+    host: "City of Munich",
+    culture: "Munich City",
+    flag: "🇩🇪",
+    date: "2024-12-01",
+    location: "Olympiapark",
+    price: 0,
+    capacity: 500,
+    image: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80",
+    description: "The official monthly city gathering! Free entry for Passport holders with 5+ stamps.",
+    type: "City Event",
+    isSpecial: true
+  },
+  {
+    id: 1,
+    title: "Traditional Tea Ceremony",
+    host: "Yuki Tanaka",
+    culture: "Japanese",
+    flag: "🇯🇵",
+    date: "2024-11-24",
+    location: "Maxvorstadt",
+    price: 15,
+    capacity: 10,
+    image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80",
+    description: "Experience the tranquility of a traditional tea ceremony hosted by Yuki.",
+    type: "Workshop"
+  },
+  {
+    id: 2,
+    title: "Bavarian Pretzels & Beer",
+    host: "Hans Gruber",
+    culture: "Bavarian",
+    flag: "🇩🇪",
+    date: "2024-11-25",
+    location: "Altstadt",
+    price: 25,
+    capacity: 20,
+    image: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=800&q=80",
+    description: "Learn how to make authentic Brezn with a local baker.",
+    type: "Food & Drink"
+  },
+  {
+    id: 3,
+    title: "Salsa Beginner Night",
+    host: "Maria Rodriguez",
+    culture: "Cuban",
+    flag: "🇨🇺",
+    date: "2024-11-26",
+    location: "Ludwigsvorstadt",
+    price: 10,
+    capacity: 30,
+    image: "https://images.unsplash.com/photo-1516651029879-1df40eb3523f?auto=format&fit=crop&w=800&q=80",
+    description: "Shake your hips! No partner needed.",
+    type: "Dance"
+  },
+  {
+    id: 4,
+    title: "Ethiopian Coffee Ritual",
+    host: "Amara Bekele",
+    culture: "Ethiopian",
+    flag: "🇪🇹",
+    date: "2024-11-28",
+    location: "Au-Haidhausen",
+    price: 12,
+    capacity: 8,
+    image: "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&w=800&q=80",
+    description: "Participate in the social and spiritual coffee ceremony.",
+    type: "Ceremony"
+  },
+  {
+    id: 5,
+    title: "Mexican Taco Fiesta",
+    host: "Diego Torres",
+    culture: "Mexican",
+    flag: "🇲🇽",
+    date: "2024-11-29",
+    location: "Schwabing",
+    price: 20,
+    capacity: 25,
+    image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80",
+    description: "Authentic street tacos made from scratch.",
+    type: "Food & Drink"
+  },
+  {
+    id: 6,
+    title: "Indian Bollywood Dance",
+    host: "Priya Patel",
+    culture: "Indian",
+    flag: "🇮🇳",
+    date: "2024-12-02",
+    location: "Giesing",
+    price: 12,
+    capacity: 20,
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+    description: "High energy dance workshop!",
+    type: "Dance"
+  }
+];
+
+export { MOCK_EVENTS };
+export { MOCK_USER };
+export { RECOMMENDED_STAMPS };
