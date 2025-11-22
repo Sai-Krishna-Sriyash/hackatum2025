@@ -4,7 +4,7 @@ import { createClient } from '@/lib/client_supabase';
 import { MOCK_USER, nationalities } from '@/lib/data';
 
 import { ArrowRight, Check, ChevronRight, MapPin, PlusCircle, Upload, Users, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type FormData = {
   title: string;
@@ -105,6 +105,16 @@ const HostEventModal = ({ onClose }) => {
     setIsPublishing(false);
     
   };
+
+  useEffect(() => {
+  if (success) {
+    const timer = setTimeout(() => {
+      onClose();          
+    }, 1000);             
+
+    return () => clearTimeout(timer); 
+  }
+}, [success, onClose]);
 
 const handleFlagSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const country = e.target.value;                    

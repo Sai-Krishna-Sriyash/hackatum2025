@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react'
 
-import HomePage from '@/app/page'
+
 import EventsPage from '@/app/events/page'
 import PassportPage from '@/app/passport/page'
 import ProfilePage from '@/app/profile/page'
@@ -16,6 +16,7 @@ import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filt
 
 import React from 'react'
 import Header from './Header';
+import HomePage from '@/app/home/page';
 
 const LayoutHeader = () => {
     const [activeTab, setActiveTab] = useState('home');

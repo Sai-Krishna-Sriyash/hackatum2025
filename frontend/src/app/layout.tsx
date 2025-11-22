@@ -20,9 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<body className={`${rubik.variable} w-full font-sans min-h-screen flex flex-col`}>
 					{/* TOP HEADER */}
 
-					<LayoutHeader />
-
-					
+					{/* Main Content Area */}
+					<div className="flex-1 relative z-0 w-full min-h-screen">{children}</div>
 				</body>
 			</html>
 		</ClerkProvider>
