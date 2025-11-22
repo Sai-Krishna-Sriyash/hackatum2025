@@ -146,6 +146,31 @@ const MOCK_EVENTS = [
   }
 ];
 
+const nationalities: Record<string, string> = {
+  ST: "Select country..",
+  AU: "Australia",
+  BR: "Brazil",
+  CA: "Canada",
+  CN: "China",
+  DE: "Germany",
+  EG: "Egypt",
+  ES: "Spain",
+  FR: "France",
+  GB: "United Kingdom",
+  ID: "Indonesia",
+  IN: "India",
+  IT: "Italy",
+  JP: "Japan",
+  KR: "South Korea",
+  MX: "Mexico",
+  NG: "Nigeria",
+  RU: "Russia",
+  SA: "Saudi Arabia",
+  TR: "Turkey",
+  US: "United States",
+};
+
 export { MOCK_EVENTS };
 export { MOCK_USER };
 export { RECOMMENDED_STAMPS };
+export {nationalities}
