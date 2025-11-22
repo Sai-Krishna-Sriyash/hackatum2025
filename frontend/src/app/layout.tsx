@@ -22,8 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 					<LayoutHeader />
 
-					{/* Main Content Area */}
-					<div className="flex-1 relative z-0 w-full min-h-screen">{children}</div>
+					
 				</body>
 			</html>
 		</ClerkProvider>

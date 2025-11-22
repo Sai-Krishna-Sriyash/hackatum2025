@@ -52,7 +52,7 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
 
   return (
     
-    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-32">
+    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-6">
       
       {/* 1. Culture Progress Dashboard */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#E6F4F1] flex items-center gap-6 p -8">

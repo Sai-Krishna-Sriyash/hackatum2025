@@ -20,7 +20,7 @@ const EventsPage = ({ setSelectedEvent, user, filters, setFilters }) => {
  
   return (
     <div className="w-full min-h-screen pb-20 ">
-      <div className="flex flex-col md:flex-row gap-6 items-start">
+      <div className="flex flex-col md:flex-row gap-6 items-start p-6">
         <div className="hidden md:block w-128 h-64 bg-white p-4 rounded-2xl shadow-sm border border-[#E6F4F1] sticky top-24 shrink-0">
            <div className="flex items-center gap-2 mb-4 border-b border-gray-100 pb-2"><Filter size={32} className="text-[#67B99A]" /><h3 className="font-bold text-[#163C5D]">Filters</h3></div>
            <div className="space-y-4">

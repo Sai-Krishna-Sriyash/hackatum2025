@@ -36,91 +36,64 @@ const EventMap = () => {
   };
 
   useEffect(() => {
-const eventLocations: LocationData[] = [];
+  if (map.current || !mapContainer.current) return;
 
-    if (map.current || !mapContainer.current) return;
+  map.current = new mapboxgl.Map({
+    container: mapContainer.current,
+    style: 'mapbox://styles/mapbox/light-v11',
+    center: [11.5820, 48.1351],
+    zoom: 10,
+  });
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [11.5820, 48.1351],
-      zoom: 10,
-    });
+  const currentMap = map.current;
 
-    const getEvents = async () => {
-      const {data,error} = await supabase
+  const getEvents = async () => {
+    const { data, error } = await supabase
       .from("events")
-      .select("id, country, lat, lon, title")
+      .select("id, country,code, lat, lon, title");
 
-      if (data){
-        data.forEach((item)=> (
-            eventLocations.push(
-                {id: item.id,
-          name: item.title,
-          latitude: item.lat,
-          longitude:item.lon,
-          flagUrl: 'https://flagcdn.com/${(in).toLowerCase()}.svg`'
-        })
-        ))
-      }
-    }
+    if (!data) return;
 
-    console.log(eventLocations)
+    data.forEach(item => {
+      const flagUrl = `https://flagcdn.com/${item.code.toLowerCase()}.svg`;
 
-    getEvents();
-
-
-
-    const currentMap = map.current;
-
-    eventLocations.forEach((loc) => {
-      const el = document.createElement('div');
-      el.className = 'marker-flag';
-      el.style.cursor = 'pointer';
+      const el = document.createElement("div");
+      el.className = "marker-flag";
+      el.style.cursor = "pointer";
       el.innerHTML = `
-        <div s{tyle="padding:4px; background-color:#EF4444; border-radius:50%; box-shadow:0 4px 6px rgba(0,0,0,0.2); border:1px solid white; transition: transform 0.2s;">
-          <img src="${loc.flagUrl}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; display:block;" />
-        </div>
-      `;
+        <div style="
+          width:45px;
+          height:45px;
+          padding:0;
+          background:#EF4444;
+          border-radius:50%;
+          overflow:hidden;              
+          box-shadow:0 4px 6px rgba(0,0,0,0.2);
+          border:1px solid white;
+        ">
+          <img src="${flagUrl}" 
+            style="
+              width:100%;
+              height:100%;
+              object-fit:cover;       
+              display:block;
+      "
+    />
+  </div>
+  `;
 
       const popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3 style="font-weight:bold; color:black;">${loc.name}</h3><p style="color:gray; font-size:12px;">Click for details</p>`);
+        .setHTML(`<h3 style="font-weight:bold">${item.title}</h3>`);
 
       new mapboxgl.Marker(el)
-        .setLngLat([loc.longitude, loc.latitude])
+        .setLngLat([item.lon, item.lat])
         .setPopup(popup)
         .addTo(currentMap);
     });
+  };
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
-                currentMap.flyTo({
-                    center: [longitude, latitude],
-                    zoom: 13,
-                    essential: true
-                });
-
-                const userEl = document.createElement('div');
-                userEl.innerHTML = `
-                  <div style="display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:16px; height:16px; background-color:#3B82F6; border-radius:50%; border:2px solid white; box-shadow:0 4px 6px rgba(0,0,0,0.1);"></div>
-                    <div style="font-size:10px; font-weight:bold; color:#2563EB; background:rgba(255,255,255,0.9); padding:2px 4px; border-radius:4px; margin-top:4px;">You</div>
-                  </div>
-                `;
-
-                new mapboxgl.Marker(userEl)
-                  .setLngLat([longitude, latitude])
-                  .addTo(currentMap);
-            },
-            (error) => {
-                console.error("Error getting location:", error);
-            }
-        );
-    }
-
-  }, []);
+  getEvents();
+}, [supabase]);
 
   return (
     <div className="w-full h-96 rounded-xl overflow-hidden border-2 border-[#26667F] shadow-lg relative"
