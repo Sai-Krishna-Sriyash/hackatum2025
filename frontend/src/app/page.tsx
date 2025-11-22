@@ -51,7 +51,7 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
 
   return (
     
-    <div className="w-screen space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-32">
+    <div className="w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-32">
       
       {/* 1. Culture Progress Dashboard */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#E6F4F1] flex items-center gap-6 p -8">
@@ -69,14 +69,7 @@ const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
       </div>
 
       {/* 2. Exploration Map */}
-      <div className="bg-white p-4 rounded-2xl shadow-md border border-[#E6F4F1] relative">
-        <h3 className="absolute top-6 left-6 z-10 bg-white/90 backdrop-blur px-3 py-1 rounded-lg font-bold text-[#163C5D] text-sm shadow-sm">Exploration Map</h3>
-        <div className="relative w-full h-[300px] bg-[#133452] rounded-xl overflow-hidden">
-          <div className="absolute inset-0 opacity-20 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Munich_map.png/1200px-Munich_map.png')] bg-cover bg-center grayscale" />
-           <div className="absolute inset-0 flex items-center justify-center text-[#67B99A]"><MapPin size={48} className="animate-bounce" /></div>
-           <div className="absolute bottom-4 left-4 text-white text-xs"><p>Attend events to unlock districts.</p></div>
-        </div>
-      </div>
+      <EventMap />
 
       {/* 3. Monthly City Event */}
       <div className="relative">

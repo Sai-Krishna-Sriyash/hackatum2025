@@ -14,7 +14,7 @@ const Header = ({ activeTab, setActiveTab, setShowHostModal, setShowBuddyModal }
 
   return (
     <header className="sticky top-0 z-50 bg-[#163C5D] text-white shadow-md">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center ">
         <div className="flex items-center gap-2 font-bold text-xl tracking-wider cursor-pointer" onClick={() => setActiveTab('home')}>
           <div className="bg-white rounded-full p-0.5"><KulturLogo className="w-8 h-8" /></div>
           <span>Kultur<span className="text-[#67B99A]">Konnect</span></span>

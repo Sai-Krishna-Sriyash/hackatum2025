@@ -28,7 +28,7 @@ const ProfilePage = ({ user }) => {
         <div className="w-24 h-24 rounded-full p-1 border-2 border-[#67B99A]"><img src={user.avatar} className="w-full h-full rounded-full object-cover" alt="Profile" /></div>
         <div><h2 className="text-2xl font-bold text-[#163C5D]">{user.name}</h2><p className="text-[#2D7A83] flex items-center gap-1"><Globe size={14} /> {user.nationality}</p></div>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-4">
         <button onClick={() => setSubPage('edit')} className="w-full bg-white p-4 rounded-xl flex justify-between items-center text-[#163C5D] hover:bg-[#E6F4F1] transition shadow-sm">Edit Profile <ChevronRight size={16}/></button>
         <button onClick={() => setSubPage('payment')} className="w-full bg-white p-4 rounded-xl flex justify-between items-center text-[#163C5D] hover:bg-[#E6F4F1] transition shadow-sm">Payment Methods <ChevronRight size={16}/></button>
         <div className="bg-gray-50 p-4 rounded-lg flex items-center justify-center">

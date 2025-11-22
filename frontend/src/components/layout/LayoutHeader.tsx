@@ -41,9 +41,9 @@ const LayoutHeader = () => {
         }
       };
   return (
-    <div className="w-max min-h-screen bg-[#F5F9F8] font-sans text-[#163C5D]">
+    <div className="w-full min-h-screen bg-[#F5F9F8] font-sans text-[#163C5D] ">
       <Header activeTab={activeTab} setActiveTab={setActiveTab} setShowHostModal={setShowHostModal} setShowBuddyModal={setShowBuddyModal} />
-      <main className="w-max mx-auto px-4 py-6 pb-24 md:pb-6">
+      <main className="w-full mx-auto p py-6 pb-24 p-16 ">
         {renderContent()}
       </main>
       
