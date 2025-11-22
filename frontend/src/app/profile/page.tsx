@@ -1,3 +1,4 @@
+import { SignOutButton } from "@clerk/nextjs";
 import { Check, ChevronRight, CreditCard, Globe, MapPin, User } from "lucide-react";
 import { useState } from "react";
 
@@ -30,6 +31,11 @@ const ProfilePage = ({ user }) => {
       <div className="space-y-2">
         <button onClick={() => setSubPage('edit')} className="w-full bg-white p-4 rounded-xl flex justify-between items-center text-[#163C5D] hover:bg-[#E6F4F1] transition shadow-sm">Edit Profile <ChevronRight size={16}/></button>
         <button onClick={() => setSubPage('payment')} className="w-full bg-white p-4 rounded-xl flex justify-between items-center text-[#163C5D] hover:bg-[#E6F4F1] transition shadow-sm">Payment Methods <ChevronRight size={16}/></button>
+        <div className="bg-gray-50 p-4 rounded-lg flex items-center justify-center">
+					<SignOutButton redirectUrl="/sign-in">
+						<button onClick={()=> console.log("CLICKED")} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sign Out</button>
+					</SignOutButton>
+				</div>
       </div>
     </div>
   );

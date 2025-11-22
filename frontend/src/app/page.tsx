@@ -1,15 +1,53 @@
-'use client';
+"use client";
 import EventCard from "@/components/features/EventCard";
 import { MOCK_EVENTS } from "@/lib/data";
-import { Search, MapPin, Calendar, User, CreditCard, Globe, Award, Menu, X, Filter, ChevronRight, PlusCircle, Star, SlidersHorizontal, Users, Settings, Check, Wallet, Camera, Phone, Share2, ArrowRight, Upload } from 'lucide-react';
+import {
+	Search,
+	MapPin,
+	Calendar,
+	User,
+	CreditCard,
+	Globe,
+	Award,
+	Menu,
+	X,
+	Filter,
+	ChevronRight,
+	PlusCircle,
+	Star,
+	SlidersHorizontal,
+	Users,
+	Settings,
+	Check,
+	Wallet,
+	Camera,
+	Phone,
+	Share2,
+	ArrowRight,
+	Upload,
+} from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { SignOutButton, UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const HomePage = ({ user, setSelectedEvent }: { user: any, setSelectedEvent: any }) => {
+const HomePage = ({ user, setSelectedEvent }: { user, setSelectedEvent }) => {
+	const { isLoaded, userId } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!isLoaded) return;
+		if (!userId) router.push("/sign-in");
+	}, [isLoaded, userId, router]);
   const cityEvent = MOCK_EVENTS.find(e => e.isSpecial);
   const regularEvents = MOCK_EVENTS.filter(e => !e.isSpecial);
 
   if (!cityEvent || !user) {
     return null;
   }
+
+
 
   return (
     

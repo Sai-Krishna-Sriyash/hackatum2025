@@ -73,6 +73,7 @@ const HostEventModal = ({ onClose }) => {
               const result = await supabase.from('events').insert([{
                 image: 'publicUrlData',
                 event_date: formData.date,
+                title: formData.title,
                 address: formData.location,
                 country: formData.culture,
                 price: formData.price,
