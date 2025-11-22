@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import {createClient} from "@/lib/client_supabase";
 
 interface LocationData {
   id: number;
@@ -16,17 +17,13 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 const EventMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
+  const supabase = createClient();
 
   // 1. NEW: Track the current style so we know which button to show
   const [currentStyle, setCurrentStyle] = useState<'light' | 'satellite'>('light');
 
-  const eventLocations: LocationData[] = [
-    { id: 1, name: 'Sushi Event', latitude: 48.15, longitude: 11.60, flagUrl: 'https://flagcdn.com/jp.svg' },
-    { id: 2, name: 'French Bakery', latitude: 48.12, longitude: 11.55, flagUrl: 'https://flagcdn.com/fr.svg' },
-    { id: 3, name: 'Samba Night', latitude: 48.16, longitude: 11.52, flagUrl: 'https://flagcdn.com/br.svg' },
-  ];
 
-  // 2. UPDATED: Function now updates state too
+
   const setMapStyle = (style: 'light' | 'satellite') => {
     if (map.current) {
       const styleUrl = style === 'light'
@@ -39,6 +36,8 @@ const EventMap = () => {
   };
 
   useEffect(() => {
+const eventLocations: LocationData[] = [];
+
     if (map.current || !mapContainer.current) return;
 
     map.current = new mapboxgl.Map({
@@ -48,6 +47,30 @@ const EventMap = () => {
       zoom: 10,
     });
 
+    const getEvents = async () => {
+      const {data,error} = await supabase
+      .from("events")
+      .select("id, country, lat, lon, title")
+
+      if (data){
+        data.forEach((item)=> (
+            eventLocations.push(
+                {id: item.id,
+          name: item.title,
+          latitude: item.lat,
+          longitude:item.lon,
+          flagUrl: 'https://flagcdn.com/${(in).toLowerCase()}.svg`'
+        })
+        ))
+      }
+    }
+
+    console.log(eventLocations)
+
+    getEvents();
+
+
+
     const currentMap = map.current;
 
     eventLocations.forEach((loc) => {
@@ -55,7 +78,7 @@ const EventMap = () => {
       el.className = 'marker-flag';
       el.style.cursor = 'pointer';
       el.innerHTML = `
-        <div style="padding:4px; background-color:#EF4444; border-radius:50%; box-shadow:0 4px 6px rgba(0,0,0,0.2); border:1px solid white; transition: transform 0.2s;">
+        <div s{tyle="padding:4px; background-color:#EF4444; border-radius:50%; box-shadow:0 4px 6px rgba(0,0,0,0.2); border:1px solid white; transition: transform 0.2s;">
           <img src="${loc.flagUrl}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; display:block;" />
         </div>
       `;
