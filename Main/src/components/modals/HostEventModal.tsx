@@ -81,7 +81,7 @@ const HostEventModal = ({ onClose }) => {
                 price: formData.price,
                 description: formData.description,
                 code: formData.code,
-                owner_id: '1223',
+                owner_id: 'Sriyash',
                 time: formData.time,
                 capacity: formData.capacity,
                 type: 'NormalEvent',
