@@ -24,7 +24,7 @@ These features reflect the core functionality we built during the hackathon:
 - Journaling the events and maintaing a diary
 
 ### Running the Program
-First change the directory to main with ```cd main ```
+First change the directory to main with ```cd Main ```
 
 Then install the necesseray dependencies with ```npm install```
 
