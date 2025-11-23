@@ -22,3 +22,13 @@ These features reflect the core functionality we built during the hackathon:
 - Enabling free city events
 
 - Journaling the events and maintaing a diary
+
+### Running the Program
+First change the directory to main with ```cd main ```
+
+Then install the necesseray dependencies with ```npm install```
+
+Run the program on localhost with ```npm run dev```
+
+
+
